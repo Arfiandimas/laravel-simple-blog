@@ -23,64 +23,41 @@
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="space-y-6 p-6">
                         <h2 class="text-lg font-semibold">Your Posts</h2>
-                        <div class="rounded-md border p-5 shadow">
-                            <div class="flex items-center gap-2">
-                                <span class="flex-none rounded bg-green-100 px-2 py-1 text-green-800">Active</span>
-                                <h3><a href="#" class="text-blue-500">Post title 1</a></h3>
-                            </div>
-                            <div class="mt-4 flex items-end justify-between">
-                                <div>
-                                    <div>Published: 2024-10-01</div>
-                                    <div>Updated: 2024-10-10</div>
+
+                        @forelse ($posts as $item)
+                            <div class="rounded-md border p-5 shadow">
+                                <div class="flex items-center gap-2">
+                                    @if ($item->is_draft)
+                                        <span class="flex-none rounded bg-gray-100 px-2 py-1 text-gray-800">Draft</span>
+                                    @elseif (!$item->is_draft && $item->publish_date > now())
+                                        <span class="flex-none rounded bg-yellow-100 px-2 py-1 text-yellow-800">Scheduled</span>
+                                    @else
+                                        <span class="flex-none rounded bg-green-100 px-2 py-1 text-green-800">Active</span>
+                                    @endif
+                                    <h3><a href="#" class="text-blue-500">{{$item->title}}</a></h3>
                                 </div>
-                                <div>
-                                    <a href="#" class="text-blue-500">Detail</a> /
-                                    <a href="#" class="text-blue-500">Edit</a> /
-                                    <form action="#" method="POST" class="inline">
-                                        <button class="text-red-500">Delete</button>
-                                    </form>
+                                <div class="mt-4 flex items-end justify-between">
+                                    <div>
+                                        <div>Published: {{$item->publish_date}}</div>
+                                        <div>Updated: {{$item->updated_at->format('Y-m-d')}}</div>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="text-blue-500">Detail</a> /
+                                        <a href="#" class="text-blue-500">Edit</a> /
+                                        <form action="{{ route('posts.destroy', ['post' => $item->id])}}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="text-red-500">Delete</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        @empty
+                        @endforelse
+
+                        <div>
+                            {{ $posts->links() }}
                         </div>
-                        <div class="rounded-md border p-5 shadow">
-                            <div class="flex items-center gap-2">
-                                <span class="flex-none rounded bg-gray-100 px-2 py-1 text-gray-800">Draft</span>
-                                <h3><a href="#" class="text-blue-500">Post title 2</a></h3>
-                            </div>
-                            <div class="mt-4 flex items-end justify-between">
-                                <div>
-                                    <div>Published: -</div>
-                                    <div>Updated: 2024-10-10</div>
-                                </div>
-                                <div>
-                                    <a href="#" class="text-blue-500">Detail</a> /
-                                    <a href="#" class="text-blue-500">Edit</a> /
-                                    <form action="#" method="POST" class="inline">
-                                        <button class="text-red-500">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rounded-md border p-5 shadow">
-                            <div class="flex items-center gap-2">
-                                <span class="flex-none rounded bg-yellow-100 px-2 py-1 text-yellow-800">Scheduled</span>
-                                <h3><a href="#" class="text-blue-500">Post title 3</a></h3>
-                            </div>
-                            <div class="mt-4 flex items-end justify-between">
-                                <div>
-                                    <div>Published: 2030-10-01</div>
-                                    <div>Updated: 2024-10-10</div>
-                                </div>
-                                <div>
-                                    <a href="#" class="text-blue-500">Detail</a> /
-                                    <a href="#" class="text-blue-500">Edit</a> /
-                                    <form action="#" method="POST" class="inline">
-                                        <button class="text-red-500">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div>Pagination Here</div>
                     </div>
                 </div>
             @endif

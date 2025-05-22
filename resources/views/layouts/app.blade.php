@@ -15,6 +15,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+        <div id="aler-wrapper" class="fixed z-50 top-0 w-full pointer-events-none flex justify-center mt-4">
+            <x-base.alert title="{{ Session::get('status') }}" message="{{ Session::get('message') }}" />
+        </div>
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,13 @@ class HomeController extends Controller
     public function index()
     {
         try {
+            $posts = null;
+
             if (Auth::check()) {
-                return view('home');
-            } else {
-                return view('home');
+                $posts = Post::where(['created_by' => Auth::user()->id])->orderBy('updated_at', 'desc')->paginate(10);
             }
+
+            return view('home', compact('posts'));
         } catch (\Throwable $th) {
             Log::error(self::class, [
                 'Message ' => $th->getMessage(),

@@ -89,6 +89,16 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Post::findOrFail($id)->delete();
+            return redirect()->back()->with(['status'=> 'success', 'message'=> 'Successfully deleted the post']);
+        } catch (\Throwable $th) {
+            Log::error(self::class, [
+                'Message ' => $th->getMessage(),
+                'On file ' => $th->getFile(),
+                'On line ' => $th->getLine()
+            ]);
+            abort(500);
+        }
     }
 }
