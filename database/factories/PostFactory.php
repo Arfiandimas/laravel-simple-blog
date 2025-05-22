@@ -18,7 +18,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->sentence($nbWords = 3, $variableNbWords = true),
             'content' => fake()->text($maxNbChars = 1000),
             'publish_date' => fake()->dateTimeBetween('-5 days', '+5 days')->format('Y-m-d'),
             'is_draft' => fake()->boolean(30),

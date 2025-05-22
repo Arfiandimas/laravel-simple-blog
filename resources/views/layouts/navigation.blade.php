@@ -23,11 +23,13 @@
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
-                        {{ __('Create New Post') }}
-                    </x-nav-link>
-                </div>
+                @if (Auth::check())
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                            {{ __('Create New Post') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -102,9 +104,11 @@
                 {{ __('All Posts') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
-                {{ __('Create New Post') }}
-            </x-responsive-nav-link>
+            @if (Auth::check())
+                <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                    {{ __('Create New Post') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
