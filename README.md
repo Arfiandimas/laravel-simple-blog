@@ -1,52 +1,58 @@
-# Laravel Simple Blog
+# Laravel Project Setup Guide
 
-## 1. Overview
+This guide explains how to set up the Laravel 11 project, run database migrations and seeders, run tests, and start the development server with frontend assets.
 
-Build a simple blog system with basic user authentication and post management.
+---
 
-## 2. Workflow
+## Setup & Run Laravel Application
 
-1. Set a deadline and let us know. This deadline will depend on your schedule.
-2. Clone this repository and set up the environment.
-3. Change the remote repository to your public repository (do not delete the commit history).
-4. Implement the required features according to the specifications below.
-5. Push your changes to your public repository.
+1. **Clone repository and install dependencies**
 
-## 3. Requirements
-
-### Homepage
-
-1. Switch content based on login status.
-    - **For Authenticated Users**: Show all of their own posts, including drafts and scheduled posts.
-    - **For Guest Users**: Show links to the login and registration pages.
-2. Show status label in each post.
-
-### Post Pages
-
-1. **Post Visibility**: All users, including guest users, can see the post listing and detail pages.
-2. **Post Creation**: Only authenticated users can create new posts.
-3. **Post Update/Deletion**: Only the post's author can update and delete their posts.
-4. **Post Title**: The length of post titles must be 60 characters or less.
-5. **Drafts and Scheduling**: Posts can be saved as drafts or scheduled for future publishing. These posts are hidden on the post listing page and post detail pages.
-
-### Others
-
-1. Follow the "Laravel way" and implement Laravel best practices.
-2. Create a post seeder, including all possible statuses.
-3. Write HTTP tests for home and posts routes to ensure your application behaves as expected and is reliable.
-4. For team development, commit with an appropriate commit size and write suitable commit messages.
-
-## 4. Hints
-- You can use any references or tools, such as official documentation, Stack Overflow, ChatGPT, Copilot, and Gemini.
-- You can use any AI tools to generate code; however, don't forget to review it by yourself.
-- Static view files are already provided in the project.
-- You can create a sample user using the seeder.
-
+```bash
+git clone https://github.com/Arfiandimas/laravel-simple-blog
+cd your-laravel-project
+composer install
+cp .env.example .env
+php artisan key:generate
 ```
-php artisan db:seed
+
+2. **Edit .env to set your database connection**
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
 ```
+
+3. **Run database migrations and seeders**
+
+```bash
+php artisan migrate --seed
+```
+
+4. **Install frontend dependencies and build assets**
+
+```bash
+npm install
+npm run dev
+```
+
+5. **Start Laravel development server**
+
+```bash
+php artisan serve
+```
+Open your browser and visit: http://localhost:8000
 
 Sample User Credentials:
 
 -   Email: `test@example.com`
 -   Password: `password`
+
+## Running Tests
+```bash
+php artisan test
+```
