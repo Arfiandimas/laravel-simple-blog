@@ -43,7 +43,7 @@ class PostTest extends TestCase
             'is_draft' => false,
         ]);
 
-        $response->assertRedirect(route('posts.show', $this->post->id));
+        $response->assertRedirect(route('posts.internal', $this->post->id));
         $response->assertSessionHas('status', 'success');
 
         $this->assertDatabaseHas('posts', [
