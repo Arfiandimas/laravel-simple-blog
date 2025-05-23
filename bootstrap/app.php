@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'ensure_post_owner' => \App\Http\Middleware\EnsurePostOwner::class,
+            'ensure_post_visible' => \App\Http\Middleware\EnsurePostIsVisible::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

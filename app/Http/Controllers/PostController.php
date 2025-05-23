@@ -68,12 +68,6 @@ class PostController extends Controller
     public function show(Request $request, Post $post)
     {
         try {
-            $isInternal = $request->route()->getName() === 'posts.internal';
-
-            if (!$isInternal && ($post->is_draft || $post->publish_date > now()->format('Y-m-d'))) {
-                abort(403);
-            }
-
             return view('posts.show', compact('post'));
         } catch (Exception $e) {
             Log::error(self::class, [
@@ -108,10 +102,6 @@ class PostController extends Controller
     public function update(CreateUpdateRequest $request, Post $post)
     {
         try {
-            if ($post->created_by !== Auth::id()) {
-                abort(403, 'Unauthorized action.');
-            }
-
             $post->update($request->validated());
 
             return redirect()->route('posts.internal', $post)->with([
@@ -134,10 +124,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         try {
-            if ($post->created_by !== Auth::id()) {
-                abort(403, 'Unauthorized action.');
-            }
-
             $post->delete();
 
             return redirect()->back()->with([
