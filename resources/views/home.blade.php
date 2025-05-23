@@ -34,7 +34,7 @@
                                     @else
                                         <span class="flex-none rounded bg-green-100 px-2 py-1 text-green-800">Active</span>
                                     @endif
-                                    <h3><a href="{{ route('posts.show', ['post' => $item->id]) }}" class="text-blue-500">{{$item->title}}</a></h3>
+                                    <h3><a href="{{ route('posts.internal', ['id' => $item->id]) }}" class="text-blue-500">{{$item->title}}</a></h3>
                                 </div>
                                 <div class="mt-4 flex items-end justify-between">
                                     <div>
@@ -42,7 +42,7 @@
                                         <div>Updated: {{$item->updated_at->format('Y-m-d')}}</div>
                                     </div>
                                     <div>
-                                        <a href="{{ route('posts.show', ['post' => $item->id]) }}" class="text-blue-500">Detail</a> /
+                                        <a href="{{ route('posts.internal', ['id' => $item->id]) }}" class="text-blue-500">Detail</a> /
                                         <a href="{{ route('posts.edit', ['post' => $item->id]) }}" class="text-blue-500">Edit</a> /
                                         <form action="{{ route('posts.destroy', ['post' => $item->id]) }}" method="POST" class="inline">
                                             @csrf

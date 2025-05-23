@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/internal/posts/{id}', [PostController::class, 'show'])->name('posts.internal');
 
 Route::middleware('auth')->resource('posts', PostController::class)->except(['index', 'show']);
 Route::resource('posts', PostController::class)->only(['index', 'show']);

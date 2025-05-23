@@ -6,6 +6,7 @@ use App\Http\Requests\Post\CreateUpdateRequest;
 use App\Models\Post;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -62,10 +63,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         try {
             $post = Post::findOrFail($id);
+            $isInternal = $request->route()->getName() === 'posts.internal';
+
+            if (!$isInternal && ($post->is_draft || $post->publish_date > now()->format('Y-m-d'))) {
+                abort(404);
+            }
             return view('posts.show', compact('post'));
         } catch (ModelNotFoundException $e) {
             Log::warning('Post not found', [
