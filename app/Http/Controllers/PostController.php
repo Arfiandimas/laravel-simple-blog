@@ -7,6 +7,7 @@ use App\Models\Post;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
@@ -17,7 +18,7 @@ class PostController extends Controller
     public function index()
     {
         try {
-            $posts = Post::where([['is_draft', '=', false], ['publish_date', '<=', now()]])->orderBy('publish_date', 'desc')->paginate(10);
+            $posts = Post::where([['is_draft', '=', false], ['publish_date', '<=', now()]])->orderBy('publish_date', 'desc')->orderBy('created_at', 'desc')->paginate(10);
             return view('posts.index', compact('posts'));
         } catch (\Throwable $th) {
             Log::error(self::class, [
@@ -42,7 +43,21 @@ class PostController extends Controller
      */
     public function store(CreateUpdateRequest $request)
     {
-        //
+        try {
+            $post = Post::create([
+                ...$request->validated(),
+                'created_by' => Auth::id()
+            ]);
+
+            return redirect()->route('posts.show', ['post' => $post->id])->with(['status'=> 'success', 'message'=> 'Post created successfully']);
+        } catch (\Throwable $th) {
+            Log::error(self::class, [
+                'Message ' => $th->getMessage(),
+                'On file ' => $th->getFile(),
+                'On line ' => $th->getLine()
+            ]);
+            abort(500);
+        }
     }
 
     /**
