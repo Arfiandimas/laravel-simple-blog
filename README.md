@@ -10,7 +10,7 @@ This guide explains how to set up the Laravel 11 project, run database migration
 
 ```bash
 git clone https://github.com/Arfiandimas/laravel-simple-blog
-cd your-laravel-project
+cd laravel-simple-blog
 composer install
 cp .env.example .env
 php artisan key:generate
